@@ -1,9 +1,11 @@
-import { Alert, Pressable, StyleSheet } from 'react-native';
+import { Alert, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
 import { useCameraPermissions } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 
-import { Text, View } from '@/components/Themed';
+import { View } from '@/components/Themed';
+import Button from '@/components/Button';
+import { Spacing } from '@/constants/Tokens';
 
 export default function CameraScreen() {
   const [permission, requestPermission] = useCameraPermissions();
@@ -44,12 +46,8 @@ export default function CameraScreen() {
 
   return (
     <View style={styles.container}>
-      <Pressable style={styles.button} onPress={handleTakePhoto}>
-        <Text style={styles.buttonText}>카메라로 촬영</Text>
-      </Pressable>
-      <Pressable style={[styles.button, styles.secondaryButton]} onPress={handlePickImage}>
-        <Text style={styles.buttonText}>갤러리에서 선택</Text>
-      </Pressable>
+      <Button title="카메라로 촬영" onPress={handleTakePhoto} size="lg" />
+      <Button title="갤러리에서 선택" onPress={handlePickImage} variant="secondary" size="lg" />
     </View>
   );
 }
@@ -59,22 +57,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 16,
-  },
-  button: {
-    backgroundColor: '#2f95dc',
-    paddingVertical: 16,
-    paddingHorizontal: 32,
-    borderRadius: 8,
-    minWidth: 200,
-    alignItems: 'center',
-  },
-  secondaryButton: {
-    backgroundColor: '#666',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
+    gap: Spacing.md,
   },
 });

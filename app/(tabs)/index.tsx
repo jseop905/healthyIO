@@ -1,12 +1,69 @@
-import { StyleSheet } from 'react-native';
+import { FlatList, Image, StyleSheet } from 'react-native';
+import { router } from 'expo-router';
 
-import { Text, View } from '@/components/Themed';
+import { Text, View, useThemeColor } from '@/components/Themed';
+import Card from '@/components/Card';
+import BristolBadge from '@/components/BristolBadge';
+import EmptyState from '@/components/EmptyState';
+import { Spacing, Typography } from '@/constants/Tokens';
+import { mockAnalyses } from '@/src/data/mockAnalyses';
+import { Analysis } from '@/src/types/analysis';
+
+function formatDate(iso: string) {
+  const d = new Date(iso);
+  return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
+}
+
+function AnalysisItem({ item }: { item: Analysis }) {
+  const secondary = useThemeColor({}, 'textSecondary');
+
+  return (
+    <Card
+      onPress={() => router.push({ pathname: '/analysis/[id]', params: { id: item.id } })}
+      style={styles.card}
+    >
+      <View style={styles.row}>
+        <Image source={{ uri: item.imageUri }} style={styles.thumbnail} />
+        <View style={styles.info}>
+          <View style={styles.badgeRow}>
+            <BristolBadge type={item.bristolType} />
+            <Text style={[styles.date, { color: secondary }]}>{formatDate(item.createdAt)}</Text>
+          </View>
+          <Text style={styles.characteristics} numberOfLines={2}>
+            {item.characteristics.join(', ')}
+          </Text>
+          {item.memo && (
+            <Text style={[styles.memo, { color: secondary }]} numberOfLines={1}>
+              {item.memo}
+            </Text>
+          )}
+        </View>
+      </View>
+    </Card>
+  );
+}
 
 export default function AnalysisListScreen() {
+  if (mockAnalyses.length === 0) {
+    return (
+      <EmptyState
+        icon="list"
+        title="아직 분석 내역이 없습니다"
+        description="카메라로 촬영하여 첫 분석을 시작해보세요."
+        actionLabel="촬영하기"
+        onAction={() => router.push('/(tabs)/camera')}
+      />
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>분석 리스트</Text>
-      <Text style={styles.empty}>아직 분석 내역이 없습니다.</Text>
+      <FlatList
+        data={mockAnalyses}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => <AnalysisItem item={item} />}
+        contentContainerStyle={styles.list}
+      />
     </View>
   );
 }
@@ -14,15 +71,43 @@ export default function AnalysisListScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  list: {
+    padding: Spacing.md,
+    gap: Spacing.sm,
+  },
+  card: {
+    marginBottom: Spacing.sm,
+  },
+  row: {
+    flexDirection: 'row',
+    gap: Spacing.sm,
+    backgroundColor: 'transparent',
+  },
+  thumbnail: {
+    width: 64,
+    height: 64,
+    borderRadius: 8,
+    backgroundColor: '#ddd',
+  },
+  info: {
+    flex: 1,
+    gap: 4,
+    backgroundColor: 'transparent',
+  },
+  badgeRow: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    gap: Spacing.sm,
+    backgroundColor: 'transparent',
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  date: {
+    ...Typography.caption,
   },
-  empty: {
-    marginTop: 16,
-    color: '#888',
+  characteristics: {
+    ...Typography.bodySmall,
+  },
+  memo: {
+    ...Typography.caption,
   },
 });

@@ -1,7 +1,9 @@
-import { Alert, Image, Pressable, StyleSheet } from 'react-native';
+import { Alert, Image, StyleSheet } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
 import { Text, View } from '@/components/Themed';
+import Button from '@/components/Button';
+import { Spacing } from '@/constants/Tokens';
 
 export default function ConfirmImageScreen() {
   const { uri } = useLocalSearchParams<{ uri: string }>();
@@ -11,7 +13,6 @@ export default function ConfirmImageScreen() {
   };
 
   const handleSubmit = () => {
-    // Phase 5에서 실제 분석 요청 연동 예정
     Alert.alert('분석 요청', '분석 요청 기능은 API 연동 후 활성화됩니다.');
   };
 
@@ -27,12 +28,8 @@ export default function ConfirmImageScreen() {
     <View style={styles.container}>
       <Image source={{ uri }} style={styles.preview} resizeMode="contain" />
       <View style={styles.actions}>
-        <Pressable style={[styles.button, styles.retakeButton]} onPress={handleRetake}>
-          <Text style={styles.buttonText}>재촬영</Text>
-        </Pressable>
-        <Pressable style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.buttonText}>분석 요청</Text>
-        </Pressable>
+        <Button title="재촬영" onPress={handleRetake} variant="secondary" />
+        <Button title="분석 요청" onPress={handleSubmit} />
       </View>
     </View>
   );
@@ -49,24 +46,8 @@ const styles = StyleSheet.create({
   actions: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    paddingVertical: 24,
-    paddingHorizontal: 16,
+    paddingVertical: Spacing.lg,
+    paddingHorizontal: Spacing.md,
     backgroundColor: 'transparent',
-  },
-  button: {
-    backgroundColor: '#2f95dc',
-    paddingVertical: 14,
-    paddingHorizontal: 32,
-    borderRadius: 8,
-    minWidth: 140,
-    alignItems: 'center',
-  },
-  retakeButton: {
-    backgroundColor: '#666',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
   },
 });
