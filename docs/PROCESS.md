@@ -37,13 +37,13 @@
 
 ### 체크리스트
 
-- [ ] `git init`
-- [ ] `.gitignore` 작성 (node_modules, .expo, ios, android, .env 등)
-- [ ] GitHub 원격 저장소 생성
-- [ ] 원격 저장소 연결 (`git remote add origin`)
-- [ ] 브랜치 전략 결정 (main + feature 브랜치)
-- [ ] 초기 커밋 및 push
-- [ ] 팀원 저장소 접근 권한 설정
+- [x] `git init`
+- [x] `.gitignore` 작성 (node_modules, .expo, ios, android, .env 등)
+- [x] GitHub 원격 저장소 생성
+- [x] 원격 저장소 연결 (`git remote add origin`)
+- [x] 브랜치 전략 결정 (main + feature 브랜치)
+- [x] 초기 커밋 및 push
+- [x] 팀원 저장소 접근 권한 설정 (패스)
 
 ### 완료 기준
 
@@ -61,13 +61,13 @@
 
 ### 체크리스트
 
-- [ ] Expo Router 탭 레이아웃 파일 생성 (`app/(tabs)/_layout.tsx`)
-- [ ] 분석 리스트 탭 (홈) 라우트 생성
-- [ ] 촬영 탭 라우트 생성
-- [ ] 분석 상세 화면 라우트 생성
-- [ ] 이미지 확인 화면 라우트 생성
-- [ ] 탭 간 이동 동작 확인
-- [ ] 화면 간 네비게이션 동작 확인 (리스트 → 상세)
+- [x] Expo Router 탭 레이아웃 파일 생성 (`app/(tabs)/_layout.tsx`)
+- [x] 분석 리스트 탭 (홈) 라우트 생성
+- [x] 촬영 탭 라우트 생성
+- [x] 분석 상세 화면 라우트 생성
+- [x] 이미지 확인 화면 라우트 생성
+- [x] 탭 간 이동 동작 확인
+- [x] 화면 간 네비게이션 동작 확인 (리스트 → 상세)
 
 ### 완료 기준
 

@@ -1,12 +1,17 @@
 import { StyleSheet } from 'react-native';
+import { useLocalSearchParams } from 'expo-router';
 
 import { Text, View } from '@/components/Themed';
 
-export default function AnalysisListScreen() {
+export default function ConfirmImageScreen() {
+  const { uri } = useLocalSearchParams<{ uri: string }>();
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>분석 리스트</Text>
-      <Text style={styles.empty}>아직 분석 내역이 없습니다.</Text>
+      <Text style={styles.title}>이미지 확인</Text>
+      <Text style={styles.description}>
+        {uri ? '이미지를 확인하고 분석을 요청하세요.' : '이미지가 없습니다.'}
+      </Text>
     </View>
   );
 }
@@ -21,7 +26,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
-  empty: {
+  description: {
     marginTop: 16,
     color: '#888',
   },

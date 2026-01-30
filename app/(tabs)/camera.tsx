@@ -2,11 +2,11 @@ import { StyleSheet } from 'react-native';
 
 import { Text, View } from '@/components/Themed';
 
-export default function AnalysisListScreen() {
+export default function CameraScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>분석 리스트</Text>
-      <Text style={styles.empty}>아직 분석 내역이 없습니다.</Text>
+      <Text style={styles.title}>촬영</Text>
+      <Text style={styles.description}>카메라 또는 갤러리에서 이미지를 선택하세요.</Text>
     </View>
   );
 }
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
-  empty: {
+  description: {
     marginTop: 16,
     color: '#888',
   },
