@@ -5,8 +5,10 @@ import { Text, View, useThemeColor } from '@/components/Themed';
 import Card from '@/components/Card';
 import BristolBadge from '@/components/BristolBadge';
 import EmptyState from '@/components/EmptyState';
+import ErrorState from '@/components/ErrorState';
+import LoadingSpinner from '@/components/LoadingSpinner';
 import { Spacing, Typography } from '@/constants/Tokens';
-import { mockAnalyses } from '@/src/data/mockAnalyses';
+import { useAnalysisList } from '@/src/features/analysis/hooks';
 import { Analysis } from '@/src/types/analysis';
 
 function formatDate(iso: string) {
@@ -44,7 +46,22 @@ function AnalysisItem({ item }: { item: Analysis }) {
 }
 
 export default function AnalysisListScreen() {
-  if (mockAnalyses.length === 0) {
+  const { data: analyses, isLoading, isError } = useAnalysisList();
+
+  if (isLoading) {
+    return <LoadingSpinner fullScreen />;
+  }
+
+  if (isError) {
+    return (
+      <ErrorState
+        title="데이터를 불러오는 데 실패했습니다"
+        description="네트워크 상태를 확인하고 다시 시도해주세요."
+      />
+    );
+  }
+
+  if (!analyses || analyses.length === 0) {
     return (
       <EmptyState
         icon="list"
@@ -59,7 +76,7 @@ export default function AnalysisListScreen() {
   return (
     <View style={styles.container}>
       <FlatList
-        data={mockAnalyses}
+        data={analyses}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <AnalysisItem item={item} />}
         contentContainerStyle={styles.list}

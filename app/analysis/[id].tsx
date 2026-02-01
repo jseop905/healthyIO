@@ -4,9 +4,11 @@ import { useLocalSearchParams } from 'expo-router';
 import { Text, View, useThemeColor } from '@/components/Themed';
 import BristolBadge from '@/components/BristolBadge';
 import Card from '@/components/Card';
+import ErrorState from '@/components/ErrorState';
+import LoadingSpinner from '@/components/LoadingSpinner';
 import { Spacing, Typography } from '@/constants/Tokens';
-import { mockAnalyses } from '@/src/data/mockAnalyses';
 import { bristolInfo } from '@/src/data/bristolInfo';
+import { useAnalysisDetail } from '@/src/features/analysis/hooks';
 
 function formatDateTime(iso: string) {
   const d = new Date(iso);
@@ -16,14 +18,18 @@ function formatDateTime(iso: string) {
 export default function AnalysisDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const secondary = useThemeColor({}, 'textSecondary');
+  const { data: analysis, isLoading, isError } = useAnalysisDetail(id);
 
-  const analysis = mockAnalyses.find((a) => a.id === id);
+  if (isLoading) {
+    return <LoadingSpinner fullScreen />;
+  }
 
-  if (!analysis) {
+  if (isError || !analysis) {
     return (
-      <View style={styles.centered}>
-        <Text>분석 데이터를 찾을 수 없습니다.</Text>
-      </View>
+      <ErrorState
+        title="분석 데이터를 찾을 수 없습니다"
+        description="데이터가 삭제되었거나 오류가 발생했습니다."
+      />
     );
   }
 
@@ -74,11 +80,6 @@ const styles = StyleSheet.create({
   },
   content: {
     paddingBottom: Spacing.xl,
-  },
-  centered: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   image: {
     width: '100%',

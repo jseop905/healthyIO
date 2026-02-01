@@ -7,6 +7,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 
+import { Platform } from 'react-native';
 import { useColorScheme } from '@/components/useColorScheme';
 import { queryClient } from '@/src/lib/queryClient';
 
@@ -53,7 +54,11 @@ function RootLayoutNav() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack>
+        <Stack
+          screenOptions={{
+            animation: Platform.OS === 'android' ? 'fade' : 'slide_from_right',
+          }}
+        >
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="analysis/[id]" options={{ title: '분석 상세' }} />
           <Stack.Screen name="confirm-image" options={{ title: '이미지 확인' }} />
