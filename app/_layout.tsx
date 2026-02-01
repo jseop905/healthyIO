@@ -55,7 +55,8 @@ function RootLayoutNav() {
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+          <Stack.Screen name="analysis/[id]" options={{ title: '분석 상세' }} />
+          <Stack.Screen name="confirm-image" options={{ title: '이미지 확인' }} />
         </Stack>
       </ThemeProvider>
     </QueryClientProvider>
